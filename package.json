@@ -4,6 +4,7 @@
   "description": "Web based CCG Game",
   "scripts": {
     "install": "grunt build",
+    "start": "grunt start",
     "test": "grunt test"
   },
   "author": "Graham Cox <graham@grahamcox.co.uk>",
@@ -17,6 +18,7 @@
     "grunt-contrib-clean": "^0.7.0",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-eslint": "^17.3.1",
+    "grunt-execute": "^0.2.2",
     "grunt-jest": "^0.2.0",
     "grunt-jscpd": "0.0.11",
     "jest-cli": "^0.7.0",
@@ -28,5 +30,21 @@
     "testPathIgnorePatterns": [
       "/__tests__/[^/]*/.+"
     ]
+  },
+  "dependencies": {
+    "blipp": "^2.3.0",
+    "glue": "^3.0.0",
+    "good": "^6.4.0",
+    "hapi": "^11.1.4",
+    "hapi-info": "^1.1.0",
+    "hapi-router": "^3.4.0",
+    "hapi-routes-status": "^2.1.1",
+    "hapi-swaggered": "^2.4.1",
+    "hapi-swaggered-ui": "^2.1.1",
+    "hapi-to": "^1.0.0",
+    "inert": "^3.2.0",
+    "joi": "^7.1.0",
+    "mrhorse": "^1.2.2",
+    "vision": "^4.0.1"
   }
 }

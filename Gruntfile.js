@@ -29,6 +29,16 @@ module.exports = function(grunt) {
                 }]
             }
         },
+        execute: {
+            options: {
+                
+            },
+            target: {
+                src: [
+                    'target/server/main.js'
+                ]
+            }
+        },
         jest: {
             options: {
                 coverage: true,
@@ -56,5 +66,6 @@ module.exports = function(grunt) {
     });
 
     grunt.registerTask('build', ['eslint:main', 'jscpd:main', 'babel:main']);
-    grunt.registerTask('test', ['build', 'jest']);  
+    grunt.registerTask('test', ['build', 'jest']);
+    grunt.registerTask('start', ['test', 'execute']);
 };
