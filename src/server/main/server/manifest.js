@@ -1,4 +1,17 @@
+import Bunyan from 'bunyan';
 import path from 'path';
+import GooderBunyan from 'gooder-bunyan';
+
+const LOG = Bunyan.createLogger({name: 'access'});
+
+const HapiLogger = {
+    trace: LOG.trace.bind(LOG),
+    debug: LOG.debug.bind(LOG),
+    info: LOG.info.bind(LOG),
+    warn: LOG.warn.bind(LOG),
+    error: LOG.error.bind(LOG),
+    fatal: LOG.fatal.bind(LOG)
+};
 
 export default {
     server: {
@@ -18,10 +31,12 @@ export default {
             plugin: {
                 register: 'good',
                 options: {
-                    reporters: [{
-                        reporter: require('good-console'),
-                        events: { log: '*', response: '*' }
-                    }]
+                    reporters: [
+                        new GooderBunyan({
+                            ops: '*',
+                            response: '*'
+                        }, HapiLogger)
+                    ]
                 }
             }
         }, {
