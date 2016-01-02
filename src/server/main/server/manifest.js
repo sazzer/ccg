@@ -79,7 +79,12 @@ export default {
         }, {
             plugin: 'inert'
         }, {
-            plugin: 'mrhorse'
+            plugin: {
+                register: 'mrhorse',
+                options: {
+                    policyDirectory: path.join(__dirname, 'policies')
+                }
+            }
         }, {
             plugin: 'vision'
         }
