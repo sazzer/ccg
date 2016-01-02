@@ -1,7 +1,6 @@
-import Bunyan from 'bunyan';
 import Boom from 'boom';
-
-const LOG = Bunyan.createLogger({name: 'oauth2ClientAuth'});
+import {createLogger} from '../../log';
+const LOG = createLogger('oauth2:clientAuth');
 
 /**
  * Attempt to authenticate a request

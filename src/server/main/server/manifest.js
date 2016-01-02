@@ -1,8 +1,8 @@
-import Bunyan from 'bunyan';
 import path from 'path';
 import GooderBunyan from 'gooder-bunyan';
 
-const LOG = Bunyan.createLogger({name: 'access'});
+import {createLogger} from '../log';
+const LOG = createLogger('hapi');
 
 const HapiLogger = {
     trace: LOG.trace.bind(LOG),
@@ -89,7 +89,7 @@ export default {
                 register: 'hapi-router',
                 options: {
                     routes: '**/*Route.js',
-                    cwd: path.join(__dirname, 'routes')
+                    cwd: path.join(__dirname)
                 }
             }
         }

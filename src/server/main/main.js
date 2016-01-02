@@ -1,8 +1,8 @@
 import 'source-map-support/register';
 import {createServer} from './server';
-import Bunyan from 'bunyan';
+import {createLogger} from './log';
 
-const LOG = Bunyan.createLogger({name: 'server'});
+const LOG = createLogger('server');
 
 createServer(3000).then((server) => {
     console.log('Created server');

@@ -1,13 +1,12 @@
-import Bunyan from 'bunyan';
-
-const LOG = Bunyan.createLogger({name: 'basicAuthSetup'});
+import {createLogger} from '../log';
+const LOG = createLogger('basicAuthSetup');
 
 function validate(request, username, password, callback) {
     callback(null, username === password, {id: 1, name: username});
 }
 
 export function register(server, options, next) {
-    LOG.info('Setting up Basic Auth Setup plugin');
+    LOG.debug('Setting up Basic Auth Setup plugin');
     server.auth.strategy('simple', 'oauth2:client', {
         validateFunc: validate
     });
