@@ -1,3 +1,4 @@
+import 'source-map-support/register';
 import {createServer} from './server';
 import Bunyan from 'bunyan';
 
