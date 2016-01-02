@@ -14,6 +14,8 @@ function authenticate(request, reply) {
     const authorization = req.headers.authorization;
     if (!authorization) {
         // No Authorization header
+        return reply({'error': 'Oops'}, null, 'Basic')
+            .code(401);
         return reply(Boom.unauthorized(null, 'Basic'));
     }
     
