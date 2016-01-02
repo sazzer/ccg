@@ -33,20 +33,13 @@ export default {
                 options: {
                     reporters: [
                         new GooderBunyan({
-                            ops: '*',
                             response: '*'
                         }, HapiLogger)
                     ]
                 }
             }
         }, {
-            plugin: {
-                register: 'hapi-router',
-                options: {
-                    routes: '**/*Route.js',
-                    cwd: path.join(__dirname, 'routes')
-                }
-            }
+            plugin: 'hapi-auth-basic'
         }, {
             plugin: 'hapi-routes-status',
             options: {
@@ -87,6 +80,16 @@ export default {
             }
         }, {
             plugin: 'vision'
+        }, {
+            plugin: './basicAuthSetup'
+        }, {
+            plugin: {
+                register: 'hapi-router',
+                options: {
+                    routes: '**/*Route.js',
+                    cwd: path.join(__dirname, 'routes')
+                }
+            }
         }
     ]
 };

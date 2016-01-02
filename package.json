@@ -38,6 +38,7 @@
     "good": "^6.4.0",
     "gooder-bunyan": "^2.0.1",
     "hapi": "^11.1.4",
+    "hapi-auth-basic": "^4.1.0",
     "hapi-info": "^1.1.0",
     "hapi-router": "^3.4.0",
     "hapi-routes-status": "^2.1.1",

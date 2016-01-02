@@ -14,12 +14,16 @@ export function createServer(port) {
             }
         ];
         
-        Glue.compose(ServerManifest, {}, (err, server) => {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(server);
-            }
-        });
+        try {
+            Glue.compose(ServerManifest, {relativeTo: __dirname}, (err, server) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(server);
+                }
+            });
+        } catch (e) {
+            reject({message: e.message});
+        }
     });
 }

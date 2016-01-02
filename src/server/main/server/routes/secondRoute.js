@@ -5,6 +5,7 @@ module.exports = {
     method: 'GET',
     config: {
         id: 'secondRoute',
+        auth: 'simple',
         tags: ['api'],
         handler: (request, reply) => {
             reply(Boom.notFound('second'));
