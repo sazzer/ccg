@@ -8,7 +8,7 @@ function validate(request, username, password, callback) {
 
 export function register(server, options, next) {
     LOG.info('Setting up Basic Auth Setup plugin');
-    server.auth.strategy('simple', 'basic', {
+    server.auth.strategy('simple', 'oauth2:client', {
         validateFunc: validate
     });
     

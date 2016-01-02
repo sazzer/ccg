@@ -81,6 +81,8 @@ export default {
         }, {
             plugin: 'vision'
         }, {
+            plugin: './oauth2/oauth2ClientAuth'
+        }, {
             plugin: './basicAuthSetup'
         }, {
             plugin: {
