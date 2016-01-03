@@ -1,7 +1,7 @@
 module.exports = function(grunt) {
     require('time-grunt')(grunt);
     require('jit-grunt')(grunt);
-    
+
     grunt.initConfig({
         babel: {
             options: {
@@ -21,7 +21,7 @@ module.exports = function(grunt) {
         eslint: {
             options: {
                 configFile: 'eslintrc'
-            }, 
+            },
             main: {
                 files: [{
                     expand: true,
@@ -31,7 +31,7 @@ module.exports = function(grunt) {
         },
         execute: {
             options: {
-                
+
             },
             target: {
                 src: [
@@ -39,17 +39,10 @@ module.exports = function(grunt) {
                 ]
             }
         },
-        jest: {
-            options: {
-                coverage: true,
-                maxWorkers: 1,
-                verbose: true
-            }
-        },
         jscpd: {
             options: {
-                
-            }, 
+
+            },
             main: {
                 path: 'src/server/main'
             }
