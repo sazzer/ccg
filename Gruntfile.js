@@ -11,7 +11,7 @@ module.exports = function(grunt) {
             main: {
                 files: [{
                     expand: true,
-                    cwd: 'src/server/main',
+                    cwd: 'src/server',
                     src: ['**/*.js'],
                     dest: 'target/server'
                 }]
@@ -25,7 +25,7 @@ module.exports = function(grunt) {
             main: {
                 files: [{
                     expand: true,
-                    src: ['src/server/main/**/*.js']
+                    src: ['src/server/**/*.js']
                 }]
             }
         },
@@ -51,7 +51,7 @@ module.exports = function(grunt) {
                 
             }, 
             main: {
-                path: 'src/server/main'
+                path: 'src/server'
             }
         },
         mocha_istanbul: {
@@ -66,7 +66,7 @@ module.exports = function(grunt) {
                 ],
                 options: {
                     excludes: ['target/server/**/__tests__/*.js'],
-                    coverageFolder: 'target/server/coverage'
+                    coverageFolder: 'target/coverage/server'
                 }
             }
         },
