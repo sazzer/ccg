@@ -42,6 +42,7 @@ module.exports = function(grunt) {
         jest: {
             options: {
                 coverage: true,
+                maxWorkers: 1,
                 verbose: true
             }
         },
@@ -51,6 +52,22 @@ module.exports = function(grunt) {
             }, 
             main: {
                 path: 'src/server/main'
+            }
+        },
+        mocha_istanbul: {
+            options: {
+                reporter: 'spec',
+                reportFormats: ['lcov', 'text', 'text-summary'],
+                clearRequireCache: true
+            },
+            main: {
+                src: [
+                    'target/server/**/__tests__/*-test.js'
+                ],
+                options: {
+                    excludes: ['target/server/**/__tests__/*.js'],
+                    coverageFolder: 'target/server/coverage'
+                }
             }
         },
         watch: {
@@ -66,6 +83,6 @@ module.exports = function(grunt) {
     });
 
     grunt.registerTask('build', ['eslint:main', 'jscpd:main', 'babel:main']);
-    grunt.registerTask('test', ['build', 'jest']);
+    grunt.registerTask('test', ['build', 'mocha_istanbul']);
     grunt.registerTask('start', ['test', 'execute']);
 };

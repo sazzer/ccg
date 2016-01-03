@@ -1,8 +1,8 @@
-jest.dontMock('../b');
+import {hello} from '../b';
+import {expect} from 'chai';
 
 describe('hello', () => {
     it('says hello', () => {
-        const b = require('../b');
-        expect(b.hello('Graham')).toBe('Hello, Graham!');
+        expect(hello('Graham')).to.equal('Hello, Graham!');
     });
 });
