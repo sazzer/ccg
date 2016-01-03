@@ -51,9 +51,11 @@ module.exports = function(grunt) {
             options: {
                 reporter: 'spec',
                 reportFormats: ['lcov', 'text', 'text-summary'],
-                clearRequireCache: true
+                clearRequireCache: true,
+                mochaOptions: ['--growl']
             },
             main: {
+                root: 'target/server',
                 src: [
                     'target/server/**/__tests__/*-test.js'
                 ],

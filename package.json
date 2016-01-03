@@ -22,6 +22,7 @@
     "grunt-execute": "^0.2.2",
     "grunt-jscpd": "0.0.11",
     "grunt-mocha-istanbul": "^3.0.1",
+    "istanbul": "^0.4.1",
     "jit-grunt": "^0.9.1",
     "mocha": "^2.3.4",
     "mockery": "^1.4.0",
