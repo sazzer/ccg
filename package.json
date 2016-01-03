@@ -29,6 +29,9 @@
     "rootDir": "target/server",
     "testPathIgnorePatterns": [
       "/__tests__/[^/]*/.+"
+    ],
+    "unmockedModulePathPatterns": [
+        "lodash"
     ]
   },
   "dependencies": {
@@ -47,6 +50,7 @@
     "hapi-to": "^1.0.0",
     "inert": "^3.2.0",
     "joi": "^7.1.0",
+    "lodash": "^3.10.1",
     "mrhorse": "^1.2.2",
     "source-map-support": "^0.4.0",
     "vision": "^4.0.1"
