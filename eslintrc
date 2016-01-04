@@ -24,7 +24,6 @@
         "quotes": [2, "single", "avoid-escape"],
         "no-console": 0,
         "no-trailing-spaces": [2, {"skipBlankLines": true}],
-        "no-unused-expressions": 1,
         "new-cap": [2, {
             "newIsCap": true,
             "capIsNew": false
