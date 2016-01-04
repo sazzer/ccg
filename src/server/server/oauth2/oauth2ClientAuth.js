@@ -3,7 +3,8 @@ import {createLogger} from '../../log';
 const LOG = createLogger('oauth2:clientAuth');
 
 /**
- * Attempt to authenticate a request
+ * Attempt to authenticate a request. Much of this was taken from the hapi-basic-auth module, but then tweaked to give
+ * better error responses to OAuth2 clients.
  * @param {Request} request The request
  * @param {Reply} reply The mechanism to indicate authentication success or failure
  * @return {Any} the result of the authentication
@@ -13,27 +14,30 @@ function authenticate(request, reply) {
     const authorization = req.headers.authorization;
     if (!authorization) {
         // No Authorization header
-        return reply({'error': 'Oops'}, null, 'Basic')
-            .code(401);
-        return reply(Boom.unauthorized(null, 'Basic'));
+        const error = Boom.unauthorized(null, 'Basic');
+        error.output.payload = {error: 'invalid_client', error_description: 'No authentication provided'};
+        return reply(error);
     }
     
     const parts = authorization.split(/\s+/);
     if (parts[0].toLowerCase() !== 'basic') {
         // Authorization header is present but isn't for Basic auth
-        return reply(Boom.unauthorized('Unsupported authentication scheme', 'Basic'));
+        return reply({error: 'invalid_client', error_description: 'Unsupported authentication scheme'})
+            .code(401);
     }
     
     if (parts.length !== 2) {
         // Authorization header either has no or badly encoded credentials
-        return reply(Boom.badRequest('Bad HTTP authentication header format', 'Basic'));
+        return reply({error: 'invalid_client', error_description: 'Bad HTTP authentication header format'})
+            .code(400);
     }
     
     const credentials = new Buffer(parts[1], 'base64').toString();
     const sep = credentials.indexOf(':');
     if (sep === -1) {
         // Decoded credentials are malformed
-        return reply(Boom.badRequest('Bad header internal syntax', 'Basic'));
+        return reply({error: 'invalid_client', error_description: 'Bad header internal syntax'})
+            .code(400);
     }
     
     const username = credentials.slice(0, sep);
@@ -41,12 +45,14 @@ function authenticate(request, reply) {
     
     if (username === '') {
         // No username was present
-        return reply(Boom.unauthorized('No username provided', 'Basic'));
+        return reply({error: 'invalid_client', error_description: 'No Client ID provided'})
+            .code(401);
     }
     
     if (password === '') {
         // No password was present
-        return reply(Boom.unauthorized('No password provided', 'Basic'));
+        return reply({error: 'invalid_client', error_description: 'No Client Password provided'})
+            .code(401);
     }
     
     return reply.continue({
