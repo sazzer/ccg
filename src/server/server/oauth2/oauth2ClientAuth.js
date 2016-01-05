@@ -10,57 +10,63 @@ const LOG = createLogger('oauth2:clientAuth');
  * @return {Any} the result of the authentication
  */
 function authenticate(request, reply) {
-    const req = request.raw.req;
-    const authorization = req.headers.authorization;
-    if (!authorization) {
-        // No Authorization header
-        const error = Boom.unauthorized(null, 'Basic');
-        error.output.payload = {error: 'invalid_client', error_description: 'No authentication provided'};
-        return reply(error);
-    }
-    
-    const parts = authorization.split(/\s+/);
-    if (parts[0].toLowerCase() !== 'basic') {
-        // Authorization header is present but isn't for Basic auth
-        return reply({error: 'invalid_client', error_description: 'Unsupported authentication scheme'})
-            .code(401);
-    }
-    
-    if (parts.length !== 2) {
-        // Authorization header either has no or badly encoded credentials
-        return reply({error: 'invalid_client', error_description: 'Bad HTTP authentication header format'})
-            .code(400);
-    }
-    
-    const credentials = new Buffer(parts[1], 'base64').toString();
-    const sep = credentials.indexOf(':');
-    if (sep === -1) {
-        // Decoded credentials are malformed
-        return reply({error: 'invalid_client', error_description: 'Bad header internal syntax'})
-            .code(400);
-    }
-    
-    const username = credentials.slice(0, sep);
-    const password = credentials.slice(sep + 1);
-    
-    if (username === '') {
-        // No username was present
-        return reply({error: 'invalid_client', error_description: 'No Client ID provided'})
-            .code(401);
-    }
-    
-    if (password === '') {
-        // No password was present
-        return reply({error: 'invalid_client', error_description: 'No Client Password provided'})
-            .code(401);
-    }
-    
-    return reply.continue({
-        credentials: {
-            username,
-            password
+    try {
+        const req = request.raw.req;
+        const authorization = req.headers.authorization;
+        if (!authorization) {
+            // No Authorization header
+            throw Boom.unauthorized('No authentication provided');
         }
-    });
+
+        const parts = authorization.split(/\s+/);
+        if (parts[0].toLowerCase() !== 'basic') {
+            // Authorization header is present but isn't for Basic auth
+            throw Boom.unauthorized('Unsupported authentication scheme');
+        }
+
+        if (parts.length !== 2) {
+            // Authorization header either has no or badly encoded credentials
+            throw Boom.badRequest('Bad HTTP authentication header format');
+        }
+
+        const credentials = new Buffer(parts[1], 'base64').toString();
+        const sep = credentials.indexOf(':');
+        if (sep === -1) {
+            // Decoded credentials are malformed
+            throw Boom.badRequest('Bad header internal syntax');
+        }
+
+        const username = credentials.slice(0, sep);
+        const password = credentials.slice(sep + 1);
+
+        if (username === '') {
+            // No username was present
+            throw Boom.unauthorized('No Client ID provided');
+        }
+
+        if (password === '') {
+            // No password was present
+            throw Boom.unauthorized('No Client Password provided');
+        }
+
+        return reply.continue({
+            credentials: {
+                username,
+                password
+            }
+        });
+    } catch (e) {
+        if (e.isBoom) {
+            e.output.payload = {
+                error: 'invalid_client',
+                error_description: e.message
+            }
+            if (e.output.statusCode === 401) {
+                e.isMissing = true;
+            }
+        }
+        return reply(e);
+    }
 }
 
 /**
@@ -84,7 +90,7 @@ function oauth2ClientAuth(server, options) {
  */
 export function register(server, options, next) {
     LOG.debug('Setting up OAuth2 Client Authentication Scheme');
-    
+
     server.auth.scheme('oauth2:client', oauth2ClientAuth);
     next();
 }
